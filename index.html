@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="1.css" />
+		<script src="1.js"></script>
+		<script src="3.js"></script>
+		<script src="html2canvas.js"></script>
+
+	</head>
+	<body>
+		<div class="map" id=my_box>
+			<!-- <div class="pict" id="image-gallery"> 
+				</div>  -->
+		</div>
+		<div class="top">
+			<input type="file" id="upload-images" multiple /><br>
+			<button onclick="a6size()">A6大小</button> 
+			<button onclick="a5size()">A5大小</button> 
+			<button onclick="a4size()">A4大小</button> <br>
+			<button onclick="white()">白色</button> 
+			<button onclick="black()">黑色</button><br>
+			<button onclick="two()">竖联竖版</button> 
+			<button onclick="hengban()">竖联横板</button><br>
+			<button onclick="one()">单联竖版</button> 
+			<button onclick="one2()">单联横板</button><br>
+			<button onclick="one3()">正联</button> <br>
+			<button onclick="radius()">5.8*5.8圆形</button><br>
+			<button onclick="M5sizePic()">74*105尺寸内页</button><br>
+			<button onclick="M5sizePic2()">74*210尺寸内页(m5二折页)</button><br>
+			<div>宽（mm）</div>
+			<input type="text" id="hit">
+			<div>长（mm）</div>
+			<input type="text" id="wit" /><br>
+			<button onclick="mystyle()">自定义图片大小</button><br>
+			<button onclick="mystyle2()">自定义纸张大小</button><br>
+			<button onclick="radius2()">自定义图片圆形</button>
+			<button onclick="show2()">自动排版空白</button>
+			<br>
+			<div>圆度（50%的正方形为正圆）</div>
+			<input type="text" id="radius3" /><br>
+			<button onclick="radius3()">自定义圆度</button><br>
+			<button onclick="updateborder()">去掉外框线</button><br>
+			<button onclick="updateborder2()">恢复外框线</button><br>
+			<button onclick="save(1)">保存png</button>
+			<button onclick="save(2)">保存tiff</button>
+			<button onclick="save(3)">保存jpg</button>
+		</div>
+		
+
+	</body>
+	<script>
+		// //点击文件上传，触发
+		// $("input").change(function)
+		// {
+		// 	var files=this.files;
+		// 	if(!files.length)
+		// 	{
+		// 		return;
+		// 	}
+		// 	console.log(files)
+		// 	//创建文件
+		// 	$("img").attr("src",window.URL.createObjectURL(files[0]))
+		// } 
+		$(document).ready(function() {
+			$('#upload-images').on('change', function(e) {
+				var files = e.target.files;
+				var formData = new FormData();
+				for (var i = 0; i < files.length; i++) {
+					formData.append('image[]', files[i]);
+					var x = i + 1;
+					$('#my_box').append('<img class="pct" src="' + window.URL.createObjectURL(files[i]) +
+						'" id="Image ' + x + '"/>');
+					// $("#img"+x).attr("src",window.URL.createObjectURL(files[0]))
+				}
+			});
+		});
+		
+		
+
+		function save(type) {
+			//$(".pct").css("transform","rotatey(180deg)")
+			 //transform: rotateY(180deg); /* 翻转内容 */
+			$(".map").css("background-color", "white");
+			//找到要保存为图片的 div 元素
+			var divElement = document.getElementById("my_box");
+			var opts = {
+				useCORS: true, //重点允许跨域
+				backgroundColor: "rgba(0,0,0,.0)", //重点或者null，都代表透明
+				scale: 3, //重点提高清晰度 
+			};
+			// 使用 html2canvas 将该 div 转换为图像
+			var tiem =Date.now();
+			html2canvas(divElement, opts).then(function(canvas) {
+				// 将图像的数据转换为 Blob 对象
+				canvas.toBlob(function(blob) {
+					// 使用 FileSaver.js 将 Blob 对象保存为文件
+					if(type==2)
+						saveAs(blob, tiem+".tiff");
+					else if(type==1)
+						saveAs(blob, tiem+".png");
+					else
+						saveAs(blob, tiem+".jpg");
+				});
+			});
+		}
+
+		function white() {
+			$(".map").css("background-color", "white");
+		}
+
+		function black() {
+			$(".map").css("background-color", "black");
+		}
+		function a4size() {
+			$(".map").css("height", "29.7cm");
+			$(".map").css("width", "21cm");
+		}
+		function a5size() {
+			$(".map").css("height", "21cm");
+			$(".map").css("width", "14.8cm");
+		}
+		function a6size() {
+			$(".map").css("height", "14.8cm");
+			$(".map").css("width", "10.5cm");
+		}
+		function M5sizePic() {
+			$(".pct").css("height", "7.3cm");
+			$(".pct").css("width", "10.5cm");
+		} 
+		function M5sizePic2() {
+			$(".pct").css("height", "10.5cm");
+			$(".pct").css("width", "210cm");
+		} 
+		function one() {
+			$('.pct').css('border-radius', '');
+			$(".pct").css("width", "2.8cm");
+			$(".pct").css("height", "4.2cm");
+			// height: 2.7cm;
+			// width: 4.05cm;
+		}
+
+		function one2() {
+			$('.pct').css('border-radius', '');
+			$(".pct").css("height", "2.8cm");
+			$(".pct").css("width", "4.2cm");
+			// height: 3.0cm;
+			// width: 4.5cm;
+		}
+		function one3() {
+			$('.pct').css('border-radius', '');
+			$(".pct").css("height", "6cm");
+			$(".pct").css("width", "6cm");
+			// height: 3.0cm;
+			// width: 4.5cm;
+		}
+		function two() {
+			$('.pct').css('border-radius', '');
+			$(".pct").css("width", "5.6cm");
+			$(".pct").css("height", "8.4cm");
+			// 5.5
+			// 8.25
+		}
+
+		function hengban() {
+			$('.pct').css('border-radius', '');
+			$(".pct").css("height", "5.6cm");
+			$(".pct").css("width", "8.4cm");
+			// 5.5
+			// 8.25
+		}
+
+		function mystyle() {
+			$('.pct').css('border-radius', '');
+			$(".pct").css("height", $("#hit").val() + "mm");
+			$(".pct").css("width", $("#wit").val() + "mm");
+		}
+		
+		function mystyle2() {
+			$('.map').css('border-radius', '');
+			$(".map").css("height", $("#hit").val() + "mm");
+			$(".map").css("width", $("#wit").val() + "mm");
+		}
+		function radius() {
+			$(".pct").css("border-radius", "50%")
+			$(".pct").css("height", "6cm");
+			$(".pct").css("width", "6cm");
+		}
+
+		function radius2() {
+			$(".pct").css("border-radius", "50%")
+			$(".pct").css("height", $("#hit").val() + "mm");
+			$(".pct").css("width", $("#wit").val() + "mm");
+		}
+		
+
+		function radius3() {
+			console.log($("#radius3").val())
+			$(".pct").css("border-radius", $("#radius3").val() + "%")
+		}
+		
+		function show2() {
+			var hit=Number($("#hit").val())+2
+			var wit=Number($("#wit").val())+2
+			var x=($(".map").height()/96*2.54).toFixed(2)/hit*10;
+			var y=($(".map").width()/96*2.54).toFixed(2)/wit*10;
+			console.log( Math.floor(y)) 
+			console.log( Math.floor(x))
+			console.log( ($(".map").width()/96*2.54).toFixed(2))
+			console.log( ($(".map").height()/96*2.54).toFixed(2))  
+			var z=Math.floor(y)*Math.floor(x);
+			console.log( z)
+			for( x =0;x<z;x++)
+			{
+			// 创建一个新的div元素
+			var newDiv = document.createElement('div');
+			 
+			// 设置div的一些属性
+			newDiv.className = 'container';
+			newDiv.className="myNewDiv";
+			// 将新div添加到body中
+			$(".map").append(newDiv);
+			}
+			$(".myNewDiv").css("height", $("#hit").val() + "mm");
+			$(".myNewDiv").css("width", $("#wit").val() + "mm");
+			$(".myNewDiv").css("border", "1px solid black");
+		}
+		function updateborder()
+		{
+			$(".pct").css("border","none")
+		}
+		function updateborder2()
+		{
+			$(".pct").css("border","1px solid black")
+		}
+	</script>
+</html>

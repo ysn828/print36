@@ -1,0 +1,40 @@
+*{
+	margin: 0;
+	padding: 0;
+}  
+ body{ 
+	 flex-wrap:  wrap  ;
+	 align-items: center;
+	 display: flex;
+	 justify-content: space-around;
+ } 
+.top * {
+  font-size: 1.5rem; /* 或者使用具体的像素值，比如 '24px' */
+  margin-bottom: 20px;
+} 
+.map{
+	height: 29.7cm;
+	width: 21cm;
+	background-color: black;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap:  wrap  ;
+	align-items: center;
+}
+
+.pct
+{
+	height: 2.8cm;
+	width: 4.2cm;
+	display: flex;
+	background-color: aqua;
+	border: 1px solid black
+}
+  .left {
+    flex: 0 0 100px; /* 不伸缩，固定宽度100px */
+    background-color: #f9f9f9;
+  }
+  .right {
+    flex: 0 0 150px; /* 不伸缩，固定宽度150px */
+    background-color: #ddd;
+  }
